@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}LUXE & CO. | Official Store{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    {% include 'components/hero.html' %}
+
+    <!-- Featured Collections -->
+    {% include 'components/categories.html' %}
+
+    <!-- Featured Products -->
+    {% include 'components/products.html' %}
+
+    <!-- New Arrival Showcase -->
+    {% include 'components/new_arrivals.html' %}
+
+    <!-- Brand Story -->
+    {% include 'components/story.html' %}
+
+    <!-- Testimonials -->
+    {% include 'components/testimonials.html' %}
+
+    <!-- Newsletter -->
+    {% include 'components/newsletter.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<!-- Add any home-page specific JS here -->
+{% endblock %}
