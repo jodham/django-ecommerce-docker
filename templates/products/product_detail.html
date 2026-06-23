@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Executive Oxford Leather | LUXE & CO.{% endblock %}
+
+{% block extra_css %}
+<style>
+    .navbar {
+        background-color: var(--primary-black) !important;
+        padding: 1rem 0 !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="product-detail-section py-5 mt-5">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-lg-7">
+                {% include 'components/product_gallery.html' %}
+            </div>
+            <div class="col-lg-5">
+                {% include 'components/product_info.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products -->
+<section class="related-products pb-5 mb-5">
+    <div class="container">
+        <div class="section-header text-start mb-5" data-aos="fade-up">
+            <span>You May Also Like</span>
+            <h2>Complete The Look</h2>
+        </div>
+        {% include 'components/products.html' %}
+    </div>
+</section>
+
+<!-- Newsletter -->
+{% include 'components/newsletter.html' %}
+
+{% endblock %}

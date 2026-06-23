@@ -2,6 +2,13 @@ from django.shortcuts import get_object_or_404, render
 
 from .models import Product
 
+def home(request):
+    products = Product.objects.filter(featured=True)
+    return render(
+        request,
+        "products/home.html",
+        {"products": products}
+    )
 
 def product_list(request):
     products = Product.objects.all()

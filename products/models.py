@@ -9,6 +9,12 @@ class Product(models.Model):
         decimal_places=2
     )
     stock = models.PositiveIntegerField(default=0)
+    image = models.ImageField(
+        upload_to='images/products/',
+        blank=True,
+        null=True
+    )
+    featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(
         auto_now_add=True
     )

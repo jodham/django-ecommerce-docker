@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <section id="shop" class="py-5 bg-light">
     <div class="container py-5">
         <div class="section-header" data-aos="fade-up">
@@ -8,7 +11,7 @@
         <div class="swiper productSwiper" data-aos="zoom-in" data-aos-duration="1000">
             <div class="swiper-wrapper">
                 <!-- Example of how to loop in Django -->
-                {% for product in products %}
+              {% for product in products %}
                 <div class="swiper-slide">
                     <div class="product-card">
                         <div class="product-image-wrapper">
@@ -21,8 +24,11 @@
                             </div>
                         </div>
                         <div class="product-info">
-                            <h3 class="product-title"><a class="text-decoration-none" href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
-                            <div class="mb-2 text-warning small">
+                            <h3 class="product-title">
+                                <a class="text-decoration-none" href="{% url 'product_detail' product.id %}">
+                                    {{ product.name }}
+                                </a></h3>
+                                <div class="mb-2 text-warning small">
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
@@ -40,3 +46,4 @@
         </div>
     </div>
 </section>
+{% endblock %}

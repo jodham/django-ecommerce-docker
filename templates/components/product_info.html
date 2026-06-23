@@ -1,0 +1,80 @@
+<div class="product-detail-info px-lg-4" data-aos="fade-left">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="#shop">Formal Shoes</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Executive Oxford Leather</li>
+        </ol>
+    </nav>
+
+    <h1 class="product-detail-title">{{ product.name|default:"Executive Oxford Leather" }}</h1>
+    
+    <div class="d-flex align-items-center mb-3">
+        <div class="text-warning me-3">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+        </div>
+        <span class="text-muted small">(48 Customer Reviews)</span>
+    </div>
+
+    <p class="product-detail-price">Kes. {{ product.price|default:"450.00" }}</p>
+
+    <p class="text-muted mb-4">{{ product.description|default:"Meticulously crafted from the finest Italian full-grain leather, our Executive Oxford represents the pinnacle of formal footwear. Featuring a seamless construction and a hand-polished finish." }}</p>
+
+    <div class="mb-4">
+        <h6 class="text-uppercase fw-bold mb-3 small">Select Size (EU)</h6>
+        <div class="size-selector">
+            <input type="radio" name="size" id="size40" value="40">
+            <label for="size40">40</label>
+            <input type="radio" name="size" id="size41" value="41">
+            <label for="size41">41</label>
+            <input type="radio" name="size" id="size42" value="42" checked>
+            <label for="size42">42</label>
+            <input type="radio" name="size" id="size43" value="43">
+            <label for="size43">43</label>
+            <input type="radio" name="size" id="size44" value="44">
+            <label for="size44">44</label>
+        </div>
+    </div>
+
+    <div class="d-flex gap-3 mb-5">
+        <div class="quantity-selector">
+            <button id="qtyMinus"><i class="bi bi-dash"></i></button>
+            <input type="text" id="productQty" value="1" readonly>
+            <button id="qtyPlus"><i class="bi bi-plus"></i></button>
+        </div>
+        <button class="btn btn-gold flex-grow-1 py-3">ADD TO CART</button>
+        <button class="btn btn-outline-dark px-4"><i class="bi bi-heart"></i></button>
+    </div>
+
+    <!-- Product Details Accordion -->
+    <div class="accordion" id="productAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#desc">
+                    {{ product.description|default:"Product Description" }}
+                </button>
+            </h2>
+            <div id="desc" class="accordion-collapse collapse show" data-bs-parent="#productAccordion">
+                <div class="accordion-body text-muted small">
+                    Experience unparalleled comfort and style. Our Goodyear-welted construction allows for multiple resoling, ensuring these shoes last a lifetime. The interior features cork filling that molds to your foot over time.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#shipping">
+                    Shipping & Returns
+                </button>
+            </h2>
+            <div id="shipping" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                <div class="accordion-body text-muted small">
+                    Complimentary standard shipping on all orders. Returns may be made within 30 days of delivery.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

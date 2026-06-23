@@ -364,3 +364,116 @@ footer a:hover {
 .swiper-pagination-bullet-active {
     background: var(--accent-gold);
 }
+
+/* Product Detail Specifics */
+.product-gallery-main {
+    background-color: #f8f8f8;
+    margin-bottom: 20px;
+}
+
+.product-gallery-thumbs {
+    margin-top: 10px;
+}
+
+.thumb-item {
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    background-color: #f8f8f8;
+}
+
+.thumb-item.active {
+    border-color: var(--accent-gold);
+}
+
+.product-detail-info .breadcrumb a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.product-detail-info .breadcrumb .active {
+    color: var(--primary-black);
+}
+
+.product-detail-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.product-detail-price {
+    font-size: 1.8rem;
+    color: var(--accent-gold);
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.size-selector input[type="radio"] {
+    display: none;
+}
+
+.size-selector label {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.size-selector input[type="radio"]:checked + label {
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+    border-color: var(--primary-black);
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    width: fit-content;
+}
+
+.quantity-selector button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.quantity-selector input {
+    width: 50px;
+    text-align: center;
+    border: none;
+    font-weight: 600;
+}
+
+.accordion-item {
+    border: none;
+    border-bottom: 1px solid #eee;
+}
+
+.accordion-button {
+    padding: 1.5rem 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: transparent;
+    color: var(--accent-gold);
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+

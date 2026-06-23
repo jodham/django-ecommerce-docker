@@ -66,4 +66,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Product Gallery Switcher
+    const mainImg = document.getElementById('mainProductImg');
+    const thumbs = document.querySelectorAll('.thumb-item');
+    if (mainImg && thumbs) {
+        thumbs.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                mainImg.src = this.querySelector('img').src;
+                thumbs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    }
+
+    // Quantity Selector
+    const qtyInput = document.getElementById('productQty');
+    const plusBtn = document.getElementById('qtyPlus');
+    const minusBtn = document.getElementById('qtyMinus');
+    if (qtyInput && plusBtn && minusBtn) {
+        plusBtn.addEventListener('click', () => {
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+        });
+        minusBtn.addEventListener('click', () => {
+            if (parseInt(qtyInput.value) > 1) {
+                qtyInput.value = parseInt(qtyInput.value) - 1;
+            }
+        });
+    }
 });
