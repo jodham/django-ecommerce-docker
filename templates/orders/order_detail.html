@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Order Details | LUXE & CO.
+{% endblock %}
+
+
+{% block content %}
+
+<section class="py-5 mt-5">
+
+<div class="container">
+
+    <h1>
+        Order #{{ order.id }}
+    </h1>
+
+
+    <p>
+        Status:
+        {{ order.status }}
+    </p>
+
+
+    <hr>
+
+
+    {% for item in order.items.all %}
+
+    <div class="row py-3 border-bottom align-items-center">
+
+        <div class="col-md-6">
+
+            {{ item.product.name }}
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            Quantity:
+            {{ item.quantity }}
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            KES {{ item.subtotal|floatformat:2 }}
+
+        </div>
+
+
+    </div>
+
+    {% endfor %}
+
+
+    <div class="mt-4">
+
+        <h4>
+            Total:
+            KES {{ order.total|floatformat:2 }}
+        </h4>
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+{% endblock %}

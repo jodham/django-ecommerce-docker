@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Order Complete | LUXE & CO.
+{% endblock %}
+
+
+{% block content %}
+
+<section class="py-5 mt-5">
+
+<div class="container text-center">
+
+    <h1>
+        Thank you for your order
+    </h1>
+
+    <p class="lead mt-3">
+        Your order has been received successfully.
+    </p>
+
+    <a href="{% url 'home' %}" class="btn btn-gold mt-4">
+        Continue Shopping
+    </a>
+
+</div>
+
+</section>
+
+
+{% endblock %}

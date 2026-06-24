@@ -5,7 +5,7 @@
 /* Shared Page Chrome */
 .page-hero-mini {
     background-color: var(--primary-black);
-    padding: 140px 0 60px;
+   
     color: var(--primary-white);
     text-align: center;
 }

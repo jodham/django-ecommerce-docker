@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from decimal import Decimal
 
 from products.models import Product
 
@@ -32,6 +33,23 @@ class Cart(models.Model):
         auto_now=True
     )
 
+    @property
+    def total(self):
+        return sum(
+            item.subtotal
+            for item in self.items.all()
+        )
+    
+    @property
+    def tax(self):
+        tax_rate = Decimal("0.16")
+        return self.total * tax_rate
+
+
+    @property
+    def grand_total(self):
+        return self.total + self.tax
+    
     def __str__(self):
         return f"Cart {self.id}"
 
@@ -52,5 +70,10 @@ class CartItem(models.Model):
         default=1
     )
 
+    @property
+    def subtotal(self):
+        return self.product.price * self.quantity
+
     def __str__(self):
         return self.product.name
+    

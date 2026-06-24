@@ -51,9 +51,78 @@ def cart_detail(request):
 
         except Cart.DoesNotExist:
             pass
-
+   
     return render(
         request,
         "cart/cart_detail.html",
         {"cart": cart}
     )
+
+def update_quantity(request, item_id, action):
+
+    item = get_object_or_404(
+        CartItem,
+        id=item_id
+    )
+
+    if action == "increase":
+
+        item.quantity += 1
+
+    elif action == "decrease":
+
+        if item.quantity > 1:
+            item.quantity -= 1
+
+    item.save()
+
+    return redirect("cart_detail")
+
+def checkout(request):
+    cart = None
+
+    if request.session.session_key:
+
+        try:
+            cart = Cart.objects.get(
+                session_key=request.session.session_key,
+                status="active"
+            )
+
+        except Cart.DoesNotExist:
+            pass
+
+    return render(
+        request,
+        "cart/checkout_page.html",
+        {"cart": cart}
+    )
+
+def remove_item(request, item_id):
+
+    item = get_object_or_404(
+        CartItem,
+        id=item_id
+    )
+
+    item.delete()
+
+    return redirect("cart_detail")
+
+def clear_cart(request):
+
+    if request.session.session_key:
+
+        try:
+            cart = Cart.objects.get(
+                session_key=request.session.session_key,
+                status="active"
+            )
+
+            cart.items.all().delete()
+
+        except Cart.DoesNotExist:
+            pass
+
+
+    return redirect("cart_detail")

@@ -2,13 +2,7 @@
 <section class="page-hero-mini">
     <div class="container">
         <h1>Checkout</h1>
-        <nav aria-label="breadcrumb" class="mt-3">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a href="cart.html">Cart</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-            </ol>
-        </nav>
+        
     </div>
 </section>
 
@@ -43,7 +37,8 @@
 
             <!-- Form Column -->
             <div class="col-lg-7">
-                <form class="checkout-form" id="checkoutForm">
+                <form method="POST" class="checkout-form" id="checkoutForm">
+                    {% csrf_token %}
 
                     <!-- Contact -->
                     <h5 class="checkout-section-title">Contact Information</h5>
@@ -167,7 +162,7 @@
                     </div>
 
                     <!-- Place Order Button (visible on mobile below summary) -->
-                    <button type="submit" class="btn-place-order d-lg-none mb-4">Place Order &mdash; $1,794.96</button>
+                    <button type="submit" class="btn-place-order d-lg-none mb-4">Place Order &mdash; KES {{ cart.total_with_tax|floatformat:2 }}</button>
                 </form>
             </div>
 
@@ -177,46 +172,50 @@
                     <h4>Your Order</h4>
 
                     <!-- Items -->
-                    <div class="checkout-item">
-                        <div class="checkout-item-thumb">
-                            <img src="https://images.pexels.com/photos/6766308/pexels-photo-6766308.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=150&w=150" alt="Product">
-                            <span class="checkout-item-qty-badge">1</span>
-                        </div>
-                        <div>
-                            <div class="checkout-item-name">Executive Oxford Leather</div>
-                            <div class="checkout-item-variant">EU 42 &middot; Brown</div>
-                        </div>
-                        <span class="checkout-item-price">$450.00</span>
-                    </div>
+                    {% for item in cart.items.all %}
 
-                    <div class="checkout-item">
-                        <div class="checkout-item-thumb">
-                            <img src="https://images.pexels.com/photos/25652621/pexels-photo-25652621.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=150&w=150" alt="Product">
-                            <span class="checkout-item-qty-badge">2</span>
-                        </div>
-                        <div>
-                            <div class="checkout-item-name">Midnight Brogue Edition</div>
-                            <div class="checkout-item-variant">EU 43 &middot; Cognac</div>
-                        </div>
-                        <span class="checkout-item-price">$832.00</span>
-                    </div>
+                        <div class="checkout-item">
 
-                    <div class="checkout-item">
-                        <div class="checkout-item-thumb">
-                            <img src="https://images.pexels.com/photos/8069881/pexels-photo-8069881.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=150&w=150" alt="Product">
-                            <span class="checkout-item-qty-badge">1</span>
+                            <div class="checkout-item-thumb">
+
+                                {% if item.product.image %}
+                                <img 
+                                    src="{{ item.product.image.url }}"
+                                    alt="{{ item.product.name }}"
+                                >
+                                {% endif %}
+
+
+                                <span class="checkout-item-qty-badge">
+                                    {{ item.quantity }}
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="checkout-item-name">
+                                    {{ item.product.name }}
+                                </div>
+
+                            </div>
+
+
+                            <span class="checkout-item-price">
+                                KES {{ item.subtotal|floatformat:2 }}
+                            </span>
+
+
                         </div>
-                        <div>
-                            <div class="checkout-item-name">Suede Heritage Loafer</div>
-                            <div class="checkout-item-variant">EU 41 &middot; Tan</div>
-                        </div>
-                        <span class="checkout-item-price">$380.00</span>
-                    </div>
+
+                    {% endfor %}
+
 
                     <!-- Totals -->
                     <div class="summary-row mt-3">
                         <span class="text-muted">Subtotal</span>
-                        <span class="fw-semibold">$1,662.00</span>
+                        <span class="fw-semibold">KES {{ cart.total|floatformat:2 }}</span>
                     </div>
                     <div class="summary-row">
                         <span class="text-muted">Shipping</span>
@@ -224,11 +223,11 @@
                     </div>
                     <div class="summary-row">
                         <span class="text-muted">Tax</span>
-                        <span class="fw-semibold">$132.96</span>
+                        <span class="fw-semibold">KES {{ cart.tax|floatformat:2 }}</span>
                     </div>
                     <div class="summary-row total">
                         <span>Total</span>
-                        <span class="summary-value">$1,794.96</span>
+                        <span class="summary-value">KES {{ cart.grand_total|floatformat:2 }}</span>
                     </div>
 
                     <button type="submit" form="checkoutForm" class="btn-place-order d-none d-lg-block">Place Order</button>
