@@ -1,11 +1,48 @@
 from django.db import models
 from django.conf import settings
-
+import uuid
 from products.models import Product
 
 
 class Order(models.Model):
+    order_number = models.CharField(
+        max_length=20,
+        unique=True,
+        editable=False
+    )
+    customer_name = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True
+    )
 
+    email = models.EmailField(
+        blank=True,
+        null=True
+    )
+
+    phone = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
+
+    address = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    city = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    country = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -27,6 +64,16 @@ class Order(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
+
+    def save(self, *args, **kwargs):
+
+        if not self.order_number:
+
+            self.order_number = (
+                f"LXC-{uuid.uuid4().hex[:6].upper()}"
+            )
+
+        super().save(*args, **kwargs)
 
 
     def __str__(self):

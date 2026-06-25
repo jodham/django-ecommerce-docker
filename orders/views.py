@@ -23,9 +23,26 @@ def checkout(request):
 
     if request.method == "POST":
 
+
+
         order = Order.objects.create(
+
             user=request.user if request.user.is_authenticated else None,
+
+            customer_name=request.POST.get("first_name") + " " + request.POST.get("last_name"),
+
+            email=request.POST.get("email"),
+
+            phone=request.POST.get("phone"),
+
+            address=request.POST.get("address"),
+
+            city=request.POST.get("city"),
+
+            country=request.POST.get("country"),
+
             total=cart.grand_total,
+
             status="pending"
         )
 
@@ -43,7 +60,7 @@ def checkout(request):
         cart.items.all().delete()
 
 
-        return redirect("order_success", order_id=order.id)
+        return redirect("order_success", order_number=order.order_number)
         
 
 
@@ -54,10 +71,10 @@ def checkout(request):
             "cart": cart
         }
     )
-def order_success(request, order_id):
+def order_success(request, order_number):
     order = get_object_or_404(
         Order,
-        id=order_id
+        order_number=order_number
     )
     return render(
         request,
@@ -68,11 +85,11 @@ def order_success(request, order_id):
     )
 
 
-def order_detail(request, order_id):
+def order_detail(request, order_number):
 
     order = get_object_or_404(
         Order,
-        id=order_id
+        order_number=order_number
     )
 
     return render(

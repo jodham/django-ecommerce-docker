@@ -22,11 +22,11 @@ Order Complete | LUXE & CO.
 
     <p>
         Order Number:
-        <strong>#{{ order.id }}</strong>
+        <strong>#{{ order.order_number }}</strong>
     </p>
 
     <a 
-        href="{% url 'order_detail' order.id %}"
+        href="{% url 'order_detail' order.order_number %}"
         class="btn btn-gold mt-3"
     >
     View Order
