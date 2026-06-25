@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-
+from django.shortcuts import get_object_or_404
 from cart.models import Cart
 from .models import Order, OrderItem
+
 
 
 def checkout(request):
@@ -42,7 +43,8 @@ def checkout(request):
         cart.items.all().delete()
 
 
-        return redirect("order_success")
+        return redirect("order_success", order_id=order.id)
+        
 
 
     return render(
@@ -52,14 +54,18 @@ def checkout(request):
             "cart": cart
         }
     )
-def order_success(request):
-
+def order_success(request, order_id):
+    order = get_object_or_404(
+        Order,
+        id=order_id
+    )
     return render(
         request,
-        "orders/success.html"
+        "orders/success.html",
+        {
+            "order": order
+        }
     )
-
-from django.shortcuts import get_object_or_404
 
 
 def order_detail(request, order_id):

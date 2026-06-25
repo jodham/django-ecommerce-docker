@@ -37,7 +37,7 @@
 
             <!-- Form Column -->
             <div class="col-lg-7">
-                <form method="POST" class="checkout-form" id="checkoutForm">
+                <form method="POST" action="{% url 'checkout' %}" class="checkout-form" id="checkoutForm">
                     {% csrf_token %}
 
                     <!-- Contact -->

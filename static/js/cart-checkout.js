@@ -161,53 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const val = el.querySelector('input').value;
         cardSection.style.display = val === 'card' ? 'block' : 'none';
     };
-
-    /* =============================================
-       CHECKOUT – Form submit
-       ============================================= */
-    const checkoutForm = document.getElementById('checkoutForm');
-    if (checkoutForm) {
-        checkoutForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            // Simple client-side validation highlight
-            let valid = true;
-            checkoutForm.querySelectorAll('[required]').forEach(field => {
-                if (!field.value.trim()) {
-                    field.style.borderColor = '#e74c3c';
-                    valid = false;
-                } else {
-                    field.style.borderColor = '#ddd';
-                }
-            });
-
-            if (!valid) {
-                checkoutForm.querySelector('[required]:invalid, [required]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-
-            // Success state
-            const btn = checkoutForm.querySelector('.btn-place-order') || document.querySelector('.btn-place-order');
-            if (btn) {
-                btn.textContent = 'Processing...';
-                btn.style.pointerEvents = 'none';
-                btn.style.opacity = '0.7';
-            }
-
-            setTimeout(() => {
-                alert('Order placed successfully! Thank you for shopping with LUXE & CO.');
-                if (btn) {
-                    btn.textContent = 'Place Order';
-                    btn.style.pointerEvents = '';
-                    btn.style.opacity = '';
-                }
-            }, 1800);
-        });
-    }
-
     /* =============================================
        CHECKOUT – Card number formatting
-       ============================================= */
+    ============================================= */
     const cardNumInput = document.getElementById('ckCardNum');
     if (cardNumInput) {
         cardNumInput.addEventListener('input', (e) => {
