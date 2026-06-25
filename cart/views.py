@@ -12,30 +12,52 @@ def add_to_cart(request, product_id):
         id=product_id
     )
 
-    # Make sure session exists
+
+    # Ensure guest users have a session
     if not request.session.session_key:
+
         request.session.create()
 
-    session_key = request.session.session_key
 
-    cart, created = Cart.objects.get_or_create(
-        session_key=session_key,
-        user=None,
+
+    cart = Cart.objects.filter(
+        session_key=request.session.session_key,
         status="active"
-    )
+    ).first()
+
+
+
+    if not cart:
+
+        cart = Cart.objects.create(
+            session_key=request.session.session_key,
+            status="active"
+        )
+
+
 
     cart_item, created = CartItem.objects.get_or_create(
+
         cart=cart,
+
         product=product
+
     )
 
+
     if not created:
+
         cart_item.quantity += 1
+
+    else:
+
+        cart_item.quantity = 1
+
 
     cart_item.save()
 
-    return redirect("product_list")
 
+    return redirect("product_list")
 
 def cart_detail(request):
 

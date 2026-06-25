@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
+import cart
 from cart.models import Cart
 from .models import Order, OrderItem
+from django.contrib.auth.decorators import login_required
 
-
-
+@login_required
 def checkout(request):
 
     cart = None
@@ -19,6 +20,10 @@ def checkout(request):
 
         except Cart.DoesNotExist:
             pass
+
+    if not cart or not cart.items.exists():
+
+        return redirect("cart_detail")
 
 
     if request.method == "POST":
@@ -43,7 +48,6 @@ def checkout(request):
 
             total=cart.grand_total,
 
-            status="pending"
         )
 
 
@@ -53,11 +57,12 @@ def checkout(request):
                 order=order,
                 product=item.product,
                 quantity=item.quantity,
-                price=item.product.price
+                price=item.product.price,
+                status="pending"
             )
 
-
-        cart.items.all().delete()
+        cart.status = "completed"
+        cart.save()
 
 
         return redirect("order_success", order_number=order.order_number)
@@ -71,6 +76,7 @@ def checkout(request):
             "cart": cart
         }
     )
+@login_required
 def order_success(request, order_number):
     order = get_object_or_404(
         Order,
@@ -84,7 +90,7 @@ def order_success(request, order_number):
         }
     )
 
-
+@login_required
 def order_detail(request, order_number):
 
     order = get_object_or_404(
@@ -97,5 +103,21 @@ def order_detail(request, order_number):
         "orders/order_detail.html",
         {
             "order": order
+        }
+    )
+
+@login_required
+def order_history(request):
+
+    orders = Order.objects.filter(
+        user=request.user
+    ).order_by("-created_at")
+
+
+    return render(
+        request,
+        "orders/order_history.html",
+        {
+            "orders": orders
         }
     )

@@ -1,13 +1,89 @@
-<h2>Login</h2>
+{% extends "base.html" %}
 
-<form method="POST">
 
-    {% csrf_token %}
+{% block title %}
+Login | LUXE & CO.
+{% endblock %}
 
-    {{ form.as_p }}
 
-    <button type="submit">
-        Login
-    </button>
 
-</form>
+{% block content %}
+
+
+<section class="auth-section py-5 mt-5">
+
+
+    <div class="container">
+
+
+        <div class="auth-wrapper">
+
+
+                <div class="auth-card">
+
+
+                    <div class="auth-header">
+
+                        <span>Welcome Back</span>
+
+                        <h1> Sign In</h1>
+
+                        <p>
+                            Access your luxury collection and orders.
+                        </p>
+
+                    </div>
+
+
+
+                    <form method="POST">
+
+
+                        {% csrf_token %}
+
+
+                        <input 
+                            type="hidden"
+                            name="next"
+                            value="{{ request.GET.next }}">
+
+                        <div class="auth-form">
+
+                            {{ form.as_p }}
+
+                        </div>
+
+                        <button type="submit" class="btn btn-gold w-100 auth-btn">Login
+
+                        </button>
+
+                    </form>
+
+
+
+                    <div class="auth-footer">
+
+                    <p>
+                    Don't have an account?
+                    <a href="{% url 'register' %}">
+                    Create account
+                    </a>
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+{% endblock %}

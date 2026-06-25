@@ -49,11 +49,29 @@ class Order(models.Model):
         null=True,
         blank=True
     )
+    STATUS_CHOICES = [
+
+        ("pending", "Pending"),
+
+        ("confirmed", "Confirmed"),
+
+        ("processing", "Processing"),
+
+        ("shipped", "Shipped"),
+
+        ("completed", "Completed"),
+
+        ("cancelled", "Cancelled"),
+
+    ]
+
 
     status = models.CharField(
         max_length=20,
+        choices=STATUS_CHOICES,
         default="pending"
     )
+
 
     total = models.DecimalField(
         max_digits=10,

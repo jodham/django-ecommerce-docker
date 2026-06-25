@@ -477,4 +477,550 @@ footer a:hover {
 .accordion-button:focus {
     box-shadow: none;
 }
+/* ==============================
+   ORDER DETAIL
+================================ */
+
+
+.order-detail-section {
+    background: #fafafa;
+}
+
+
+.order-header-card,
+.order-info-card,
+.order-products-card {
+
+    background: #ffffff;
+
+    padding: 2rem;
+
+    border: 1px solid #eee;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+
+}
+
+
+
+.order-header-card {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+
+.order-label {
+
+    text-transform:uppercase;
+
+    letter-spacing:3px;
+
+    font-size:0.75rem;
+
+    color:var(--accent-gold);
+
+}
+
+
+
+.order-header-card h1 {
+
+    font-family:"Playfair Display", serif;
+
+    margin-top:10px;
+
+}
+
+
+
+.order-status {
+
+    text-align:right;
+
+}
+
+
+
+.order-status span {
+
+    display:block;
+
+    font-size:0.8rem;
+
+    text-transform:uppercase;
+
+    color:#777;
+
+}
+
+
+
+.order-status strong {
+
+    color:var(--accent-gold);
+
+}
+
+
+
+.order-info-card h4,
+.order-products-card h4 {
+
+    font-family:"Playfair Display", serif;
+
+    margin-bottom:1.5rem;
+
+}
+
+
+
+.order-info-item {
+
+    display:flex;
+
+    gap:12px;
+
+    margin-bottom:15px;
+
+    color:#555;
+
+}
+
+
+
+.order-info-item i {
+
+    color:var(--accent-gold);
+
+}
+
+
+
+.order-product-row {
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr 1fr;
+
+    padding:1.2rem 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+
+
+.order-product-price {
+
+    text-align:right;
+
+}
+
+
+
+.order-total {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding-top:1.5rem;
+
+    margin-top:1rem;
+
+    font-size:1.2rem;
+
+}
+
+/* ==================================
+   ORDER HISTORY PAGE
+================================== */
+
+
+.order-history-section {
+
+    background: #fafafa;
+
+    min-height: 70vh;
+
+}
+
+
+
+.order-history-section .section-header {
+
+    text-align:center;
+
+    margin-bottom:3rem;
+
+}
+
+
+
+.order-history-section .section-header span {
+
+    color:var(--accent-gold);
+
+    text-transform:uppercase;
+
+    letter-spacing:4px;
+
+    font-size:0.75rem;
+
+}
+
+
+
+.order-history-section .section-header h2 {
+
+    font-family:"Playfair Display", serif;
+
+    font-size:3rem;
+
+}
+
+
+
+.order-history-card {
+
+    background:#ffffff;
+
+    border:1px solid #eee;
+
+    box-shadow:0 15px 40px rgba(0,0,0,0.06);
+
+    padding:0;
+
+    width:100%;
+
+}
+
+
+
+.order-history-row {
+
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr 1fr auto;
+
+    align-items:center;
+
+    gap:2rem;
+
+    padding:2rem 2.5rem;
+
+    border-bottom:1px solid #eee;
+
+    transition:all .3s ease;
+
+
+}
+
+
+
+.order-history-row:hover {
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+
+}
+
+
+
+.order-history-row:last-child {
+
+    border-bottom:none;
+
+}
+
+
+
+.order-history-row h5 {
+
+
+    font-family:"Playfair Display", serif;
+
+    margin:0.5rem 0 0;
+
+    font-size:1.2rem;
+
+}
+
+
+
+.order-history-label {
+
+
+    display:block;
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    font-size:0.7rem;
+
+    color:#888;
+
+
+}
+
+
+
+.order-history-row p {
+
+    margin:0.5rem 0 0;
+
+    color:#555;
+
+}
+
+
+
+.order-history-row .btn-gold {
+
+
+    background:var(--accent-gold);
+
+    color:white;
+
+    padding:0.8rem 2rem;
+
+    text-decoration:none;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+    font-size:0.8rem;
+
+}
+
+
+
+.order-history-row .btn-gold:hover {
+
+
+    opacity:.85;
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:768px){
+
+
+    .order-history-row {
+
+
+        grid-template-columns:1fr;
+
+        gap:1rem;
+
+        text-align:center;
+
+
+    }
+
+
+}
+
+/* ==================================
+   AUTH PAGES
+================================== */
+
+
+.auth-section {
+
+    min-height:75vh;
+
+    background:#fafafa;
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+
+
+.auth-wrapper {
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+
+
+.auth-card {
+
+
+    width:100%;
+
+    max-width:450px;
+
+    background:white;
+
+    padding:3rem;
+
+    border:1px solid #eee;
+
+    box-shadow:0 20px 50px rgba(0,0,0,0.08);
+
+
+}
+
+
+
+.auth-header {
+
+    text-align:center;
+
+    margin-bottom:2rem;
+
+}
+
+
+
+.auth-header span {
+
+
+    color:var(--accent-gold);
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+
+    font-size:.75rem;
+
+
+}
+
+
+
+.auth-header h1 {
+
+
+    font-family:"Playfair Display", serif;
+
+    font-size:2.8rem;
+
+    margin:1rem 0;
+
+
+}
+
+
+
+.auth-header p {
+
+
+    color:#777;
+
+
+}
+
+
+
+.auth-form p {
+
+
+    margin-bottom:1.3rem;
+
+
+}
+
+
+
+.auth-form label {
+
+
+    display:block;
+
+    margin-bottom:.5rem;
+
+    font-size:.85rem;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+
+}
+
+
+
+.auth-form input {
+
+
+    width:100%;
+
+    padding:.9rem 1rem;
+
+    border:1px solid #ddd;
+
+    outline:none;
+
+
+}
+
+
+
+.auth-form input:focus {
+
+
+    border-color:var(--accent-gold);
+
+
+}
+
+
+
+.auth-btn {
+
+
+    margin-top:1rem;
+
+    padding:1rem;
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+.auth-footer {
+
+
+    text-align:center;
+
+    margin-top:2rem;
+
+}
+
+
+
+.auth-footer a {
+
+
+    color:var(--accent-gold);
+
+    text-decoration:none;
+
+
+}
 
