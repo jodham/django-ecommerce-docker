@@ -3,7 +3,7 @@ import uuid
 from django.utils import timezone
 from .models import Payment
 
-
+from .integrations.mpesa import MpesaClient
 
 def initialize_payment(order):
 
@@ -118,3 +118,54 @@ def retry_payment(order):
         "payment": payment
 
     }
+
+def initiate_mpesa_payment(order, phone):
+
+
+    mpesa = MpesaClient()
+
+
+    response = mpesa.stk_push(
+
+        phone=phone,
+
+        amount=order.total,
+
+        order_number=order.order_number
+
+    )
+
+
+    payment = Payment.objects.create(
+
+        order=order,
+
+        amount=order.total,
+
+        payment_method="M-Pesa",
+
+        transaction_reference=response.get(
+            "CheckoutRequestID"
+        ),
+
+        checkout_request_id=response.get(
+            "CheckoutRequestID"
+        ),
+
+        status="pending"
+
+    )
+
+
+    order.payment_status = "pending"
+
+    order.payment_method = "M-Pesa"
+
+    order.transaction_id = (
+        response.get("CheckoutRequestID")
+    )
+
+    order.save()
+
+
+    return payment

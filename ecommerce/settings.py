@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-%s=pkk7+z-9#ob_$_1p@24b)es21b27h59&*f(*4x4eymd9kh3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://kary-kinetoscopic-dyan.ngrok-free.dev']
 
 
 # Application definition
@@ -105,6 +106,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#Mpesa intergration
+MPESA_ENVIRONMENT = os.getenv(
+    "MPESA_ENVIRONMENT"
+)
+
+MPESA_CONSUMER_KEY = os.getenv(
+    "MPESA_CONSUMER_KEY"
+)
+
+MPESA_CONSUMER_SECRET = os.getenv(
+    "MPESA_CONSUMER_SECRET"
+)
+
+MPESA_SHORTCODE = os.getenv(
+    "MPESA_SHORTCODE"
+)
+
+MPESA_PASSKEY = os.getenv(
+    "MPESA_PASSKEY"
+)
+
+MPESA_CALLBACK_URL = os.getenv(
+    "MPESA_CALLBACK_URL"
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/

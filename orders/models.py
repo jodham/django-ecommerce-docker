@@ -234,6 +234,16 @@ class Payment(models.Model):
 
     )
 
+    checkout_request_id = models.CharField(
+
+        max_length=100,
+
+        blank=True,
+
+        null=True
+
+    )
+
 
     created_at = models.DateTimeField(
 

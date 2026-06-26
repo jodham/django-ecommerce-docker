@@ -3,8 +3,12 @@ from django.shortcuts import get_object_or_404
 import cart
 from .services import initialize_payment, retry_payment
 from cart.models import Cart
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Payment
 from django.contrib.auth.decorators import login_required
+
+from django.http import JsonResponse
+
+from django.utils import timezone
 
 @login_required
 def checkout(request):
@@ -162,4 +166,118 @@ def retry_payment_view(request, order_number):
     return redirect(
         "order_detail",
         order_number=order.order_number
+    )
+
+id="mpesa_callback_view"
+def mpesa_callback(request):
+
+
+    data = request.json if hasattr(request, "json") else None
+
+
+    body = request.body.decode("utf-8")
+
+
+    import json
+
+    payload = json.loads(body)
+
+
+
+    callback = payload.get(
+        "Body",
+        {}
+    ).get(
+        "stkCallback",
+        {}
+    )
+
+
+
+    checkout_request_id = callback.get(
+        "CheckoutRequestID"
+    )
+
+
+
+    result_code = callback.get(
+        "ResultCode"
+    )
+
+
+
+    try:
+
+        payment = Payment.objects.get(
+
+            checkout_request_id=checkout_request_id
+
+        )
+
+
+    except Payment.DoesNotExist:
+
+
+        return JsonResponse(
+
+            {
+                "message":
+                "Payment not found"
+
+            },
+
+            status=404
+
+        )
+
+
+
+    if result_code == 0:
+
+
+        payment.status = "paid"
+
+        payment.save()
+
+
+
+        order = payment.order
+
+
+        order.payment_status = "paid"
+
+        order.paid_at = timezone.now()
+
+        order.save()
+
+
+
+    else:
+
+
+        payment.status = "failed"
+
+        payment.save()
+
+
+
+        order = payment.order
+
+
+        order.payment_status = "failed"
+
+        order.save()
+
+
+
+    return JsonResponse(
+
+        {
+            "ResultCode": 0,
+
+            "ResultDesc":
+            "Accepted"
+
+        }
+
     )
