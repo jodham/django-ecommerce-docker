@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 import cart
+from .services import initialize_payment, retry_payment
 from cart.models import Cart
 from .models import Order, OrderItem
 from django.contrib.auth.decorators import login_required
@@ -57,15 +58,20 @@ def checkout(request):
                 order=order,
                 product=item.product,
                 quantity=item.quantity,
-                price=item.product.price,
-                status="pending"
+                price=item.product.price
             )
 
         cart.status = "completed"
         cart.save()
 
 
-        return redirect("order_success", order_number=order.order_number)
+        payment = initialize_payment(order)
+
+
+        return redirect(
+            "order_success",
+            order_number=order.order_number
+        )
         
 
 
@@ -133,4 +139,27 @@ def order_history(request):
         {
             "orders": orders
         }
+    )
+
+@login_required
+def retry_payment_view(request, order_number):
+
+
+    order = get_object_or_404(
+
+        Order,
+
+        order_number=order_number,
+
+        user=request.user
+
+    )
+
+
+    retry_payment(order)
+
+
+    return redirect(
+        "order_detail",
+        order_number=order.order_number
     )

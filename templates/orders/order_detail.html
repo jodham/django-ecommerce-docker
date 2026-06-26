@@ -167,7 +167,123 @@ Order Details | LUXE & CO.
 
                 {% endfor %}
 
+                <div class="mt-5 payment-history">
 
+                    <h4>
+                        Payment History
+                    </h4>
+
+
+                    {% if order.payments.all %}
+
+
+                        {% for payment in order.payments.all %}
+
+
+                        <div class="payment-card">
+
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Reference
+                                </span>
+
+                                <strong>
+                                    {{ payment.transaction_reference }}
+                                </strong>
+
+                            </div>
+
+
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Method
+                                </span>
+
+                                <strong>
+                                    {{ payment.payment_method }}
+                                </strong>
+
+                            </div>
+
+
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Status
+                                </span>
+
+                                <strong>
+                                  
+                                    <span class="payment-badge payment-{{ payment.get_status_display }}">
+
+                                        {{ payment.get_status_display }}
+
+                                    </span>
+                                </strong>
+
+                            </div>
+
+
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Amount
+                                </span>
+
+                                <strong>
+                                    KES {{ payment.amount|floatformat:2 }}
+                                </strong>
+
+                            </div>
+
+
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Date
+                                </span>
+
+                                <strong>
+                                    {{ payment.created_at|date:"d M Y H:i" }}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+                        <p>
+                            No payment records available.
+                        </p>
+
+                    {% endif %}
+
+                    {% if order.payment_status != "paid" %}
+
+                    <a 
+                    href="{% url 'retry_payment' order.order_number %}"
+                    class="btn btn-dark mt-3">
+
+                    Retry Payment
+
+                    </a>
+
+                    {% endif %}
+
+                </div>
 
 
                 <div class="order-total">

@@ -25,6 +25,47 @@ Order Complete | LUXE & CO.
         <strong>#{{ order.order_number }}</strong>
     </p>
 
+    <div class="success-payment-box mt-4">
+
+
+        <h5>
+            Payment Information
+        </h5>
+
+
+        <div class="payment-row">
+
+            <span>
+                Status
+            </span>
+
+            <strong>
+                <span class="payment-badge payment-{{ order.payment_status }}">
+
+                    {{ order.get_payment_status_display }}
+
+                </span>
+            </strong>
+
+        </div>
+
+
+
+        <div class="payment-row">
+
+            <span>
+                Payment Reference
+            </span>
+
+            <strong>
+                {{ order.transaction_id }}
+            </strong>
+
+        </div>
+
+
+    </div>
+
     <a 
         href="{% url 'order_detail' order.order_number %}"
         class="btn btn-gold mt-3"

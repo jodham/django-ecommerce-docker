@@ -1224,3 +1224,184 @@ footer a:hover {
 
 
 }
+
+/* ===============================
+   ORDER SUCCESS PAYMENT INFO
+================================ */
+
+
+.success-payment-box {
+
+    padding:2rem;
+
+    border:1px solid #eee;
+
+    border-radius:12px;
+
+    background:#fff;
+
+}
+
+
+
+.success-payment-box h5 {
+
+    margin-bottom:1.5rem;
+
+    font-weight:600;
+
+}
+
+
+
+.payment-row {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:.8rem 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+
+
+.payment-row:last-child {
+
+    border-bottom:none;
+
+}
+
+
+
+.payment-row span {
+
+    color:#777;
+
+}
+
+
+
+.payment-row strong {
+
+    color:#111;
+
+}
+
+/* ===============================
+   PAYMENT HISTORY
+================================ */
+
+
+.payment-history {
+
+    margin-top:3rem;
+
+}
+
+
+
+.payment-card {
+
+    border:1px solid #eee;
+
+    border-radius:12px;
+
+    padding:1.5rem;
+
+    margin-top:1rem;
+
+    background:#fff;
+
+}
+
+
+
+.payment-row {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:.7rem 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+
+
+.payment-row:last-child {
+
+    border-bottom:none;
+
+}
+
+
+
+.payment-row span {
+
+    color:#777;
+
+}
+
+/* ===============================
+   PAYMENT STATUS BADGES
+================================ */
+
+
+.payment-badge {
+
+    display:inline-block;
+
+    padding:.35rem .9rem;
+
+    border-radius:20px;
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+}
+
+
+
+.payment-pending {
+
+    background:#fff3cd;
+
+    color:#856404;
+
+}
+
+
+
+.payment-paid {
+
+    background:#d4edda;
+
+    color:#155724;
+
+}
+
+
+
+.payment-failed {
+
+    background:#f8d7da;
+
+    color:#721c24;
+
+}
+
+
+
+.payment-refunded {
+
+    background:#e2e3e5;
+
+    color:#383d41;
+
+}

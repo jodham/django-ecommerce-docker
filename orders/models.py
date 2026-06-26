@@ -49,7 +49,17 @@ class Order(models.Model):
         null=True,
         blank=True
     )
+    PAYMENT_STATUS_CHOICES = [
 
+        ("unpaid", "Unpaid"),
+
+        ("paid", "Paid"),
+
+        ("failed", "Failed"),
+
+        ("refunded", "Refunded"),
+
+    ]
     STATUS_CHOICES = [
 
         ("pending", "Pending"),
@@ -74,7 +84,35 @@ class Order(models.Model):
         choices=STATUS_CHOICES,
         default="pending"
     )
+    payment_status = models.CharField(
 
+        max_length=20,
+
+        choices=PAYMENT_STATUS_CHOICES,
+
+        default="unpaid"
+
+    )
+
+    payment_method = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
+
+
+    transaction_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        unique=True
+    )
+
+
+    paid_at = models.DateTimeField(
+        blank=True,
+        null=True
+    )
 
     total = models.DecimalField(
         max_digits=10,
@@ -133,3 +171,84 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.product.name
+    
+
+class Payment(models.Model):
+
+    PAYMENT_STATUS_CHOICES = [
+
+        ("pending", "Pending"),
+
+        ("paid", "Paid"),
+
+        ("failed", "Failed"),
+
+        ("refunded", "Refunded"),
+
+    ]
+
+
+    order = models.ForeignKey(
+
+        Order,
+
+        related_name="payments",
+
+        on_delete=models.CASCADE
+
+    )
+
+
+    amount = models.DecimalField(
+
+        max_digits=10,
+
+        decimal_places=2
+
+    )
+
+
+    payment_method = models.CharField(
+
+        max_length=50
+
+    )
+
+
+    status = models.CharField(
+
+        max_length=20,
+
+        choices=PAYMENT_STATUS_CHOICES,
+
+        default="pending"
+
+    )
+
+
+    transaction_reference = models.CharField(
+
+        max_length=100,
+
+        unique=True
+
+    )
+
+
+    created_at = models.DateTimeField(
+
+        auto_now_add=True
+
+    )
+
+
+    updated_at = models.DateTimeField(
+
+        auto_now=True
+
+    )
+
+
+    def __str__(self):
+
+        return self.transaction_reference

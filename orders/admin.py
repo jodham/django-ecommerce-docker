@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Payment
 
 
 class OrderItemInline(admin.TabularInline):
@@ -17,12 +17,14 @@ class OrderAdmin(admin.ModelAdmin):
         "order_number",
         "customer_name",
         "status",
+        "payment_status",
         "total",
         "created_at",
     )
 
     list_filter = (
         "status",
+        "payment_status",
         "created_at",
     )
 
@@ -40,6 +42,59 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = (
         "order_number",
         "created_at",
+        "paid_at",
+    )
+    fieldsets = (
+
+        (
+            "Order Information",
+            {
+                "fields": (
+                    "order_number",
+                    "customer_name",
+                    "email",
+                    "phone",
+                    "address",
+                    "city",
+                    "country",
+                )
+            }
+        ),
+
+
+        (
+            "Fulfillment",
+            {
+                "fields": (
+                    "status",
+                )
+            }
+        ),
+
+
+        (
+            "Payment",
+            {
+                "fields": (
+                    "payment_status",
+                    "payment_method",
+                    "transaction_id",
+                    "paid_at",
+                )
+            }
+        ),
+
+
+        (
+            "Totals",
+            {
+                "fields": (
+                    "total",
+                    "created_at",
+                )
+            }
+        ),
+
     )
 
     inlines = [
@@ -56,4 +111,43 @@ class OrderItemAdmin(admin.ModelAdmin):
         "product",
         "quantity",
         "price",
+    )
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        "transaction_reference",
+
+        "order",
+
+        "amount",
+
+        "status",
+
+        "payment_method",
+
+        "created_at",
+
+    )
+
+
+    list_filter = (
+
+        "status",
+
+        "payment_method",
+
+        "created_at",
+
+    )
+
+
+    search_fields = (
+
+        "transaction_reference",
+
+        "order__order_number",
+
     )
