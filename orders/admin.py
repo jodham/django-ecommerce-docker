@@ -15,8 +15,30 @@ class OrderAdmin(admin.ModelAdmin):
 
     list_display = (
         "order_number",
+        "customer_name",
         "status",
         "total",
+        "created_at",
+    )
+
+    list_filter = (
+        "status",
+        "created_at",
+    )
+
+    search_fields = (
+        "order_number",
+        "customer_name",
+        "email",
+        "phone",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    readonly_fields = (
+        "order_number",
         "created_at",
     )
 

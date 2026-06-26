@@ -49,6 +49,7 @@ class Order(models.Model):
         null=True,
         blank=True
     )
+
     STATUS_CHOICES = [
 
         ("pending", "Pending"),
@@ -57,9 +58,11 @@ class Order(models.Model):
 
         ("processing", "Processing"),
 
+        ("packed", "Packed"),
+
         ("shipped", "Shipped"),
 
-        ("completed", "Completed"),
+        ("delivered", "Delivered"),
 
         ("cancelled", "Cancelled"),
 

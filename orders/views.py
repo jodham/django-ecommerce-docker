@@ -98,12 +98,25 @@ def order_detail(request, order_number):
         order_number=order_number
     )
 
+    status_steps = [
+        "pending",
+        "confirmed",
+        "processing",
+        "packed",
+        "shipped",
+        "delivered",
+    ]
+
+    current_index = status_steps.index(order.status)
     return render(
         request,
         "orders/order_detail.html",
         {
-            "order": order
+            "order": order,
+            "status_steps": status_steps,
+            "current_index": current_index
         }
+        
     )
 
 @login_required

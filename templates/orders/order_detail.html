@@ -32,10 +32,35 @@ Order Details | LUXE & CO.
                 Status
             </span>
 
-            <strong>
-                {{ order.get_status_display }}
-            </strong>
+      <div class="order-progress">
 
+
+            {% for status in status_steps %}
+
+           <div class="order-step {% if forloop.counter0 < current_index %}   completed
+
+            {% elif forloop.counter0 == current_index %}
+            active
+
+            {% endif %}
+
+            ">
+
+                <div class="step-circle">
+                    <i class="bi bi-check"></i>
+                </div>
+
+                <span>
+                    {{ status|title }}
+                </span>
+
+            </div>
+
+
+            {% endfor %}
+
+
+            </div>
         </div>
 
     </div>
