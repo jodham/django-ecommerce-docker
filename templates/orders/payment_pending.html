@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Payment Pending | LUXE & CO.
+{% endblock %}
+
+
+
+{% block content %}
+
+<section class="py-5 mt-5">
+
+
+<div class="container text-center">
+
+
+<h1>
+Waiting for M-Pesa Confirmation
+</h1>
+
+
+<p class="mt-3">
+
+A payment request has been sent to your phone.
+
+Please complete the M-Pesa prompt.
+
+</p>
+
+
+<div class="spinner-border mt-4">
+
+</div>
+
+
+<p class="mt-4">
+
+Order:
+<strong>
+{{ order.order_number }}
+</strong>
+
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+<script>
+
+
+const orderNumber =
+"{{ order.order_number }}";
+
+
+
+const checkPayment = setInterval(() => {
+
+
+fetch(
+`/checkout/payment-status/${orderNumber}/`
+)
+
+
+.then(response =>
+response.json()
+)
+
+
+.then(data => {
+
+
+if(data.status === "paid"){
+
+
+clearInterval(checkPayment);
+
+
+window.location.href =
+`/checkout/success/${orderNumber}/`;
+
+
+}
+
+
+
+if(data.status === "failed"){
+
+
+    clearInterval(checkPayment);
+
+
+    window.location.href =
+    `/checkout/payment-failed/${orderNumber}/`;
+
+
+}
+
+
+});
+
+
+},3000);
+
+
+
+</script>
+
+
+
+{% endblock %}

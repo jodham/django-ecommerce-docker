@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 import cart
-from .services import initialize_payment, retry_payment
+from .services import initialize_payment, retry_payment, initiate_mpesa_payment
 from cart.models import Cart
 from .models import Order, OrderItem, Payment
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 
 @login_required
 def checkout(request):
@@ -69,12 +71,19 @@ def checkout(request):
         cart.save()
 
 
-        payment = initialize_payment(order)
+        payment = initiate_mpesa_payment(
 
+            order,
 
+            request.POST.get("phone")
+
+        )
         return redirect(
-            "order_success",
+
+            "payment_pending",
+
             order_number=order.order_number
+
         )
         
 
@@ -146,7 +155,7 @@ def order_history(request):
     )
 
 @login_required
-def retry_payment_view(request, order_number):
+def retry_mpesa_payment(request, order_number):
 
 
     order = get_object_or_404(
@@ -160,15 +169,27 @@ def retry_payment_view(request, order_number):
     )
 
 
-    retry_payment(order)
+
+    payment = initiate_mpesa_payment(
+
+        order,
+
+        order.phone
+
+    )
+
 
 
     return redirect(
-        "order_detail",
+
+        "payment_pending",
+
         order_number=order.order_number
+
     )
 
 id="mpesa_callback_view"
+@csrf_exempt
 def mpesa_callback(request):
 
 
@@ -235,7 +256,36 @@ def mpesa_callback(request):
     if result_code == 0:
 
 
+        callback_metadata = {}
+
+
+
+        items = callback.get(
+            "CallbackMetadata",
+            {}
+        ).get(
+            "Item",
+            []
+        )
+
+
+
+        for item in items:
+
+
+            callback_metadata[
+                item.get("Name")
+            ] = item.get("Value")
+
+
+
         payment.status = "paid"
+
+
+
+        payment.metadata = callback_metadata
+
+
 
         payment.save()
 
@@ -246,7 +296,16 @@ def mpesa_callback(request):
 
         order.payment_status = "paid"
 
+        order.payment_method = "M-Pesa"
+
+        order.transaction_id = (
+            callback_metadata.get(
+                "MpesaReceiptNumber"
+            )
+        )
+
         order.paid_at = timezone.now()
+
 
         order.save()
 
@@ -255,7 +314,31 @@ def mpesa_callback(request):
     else:
 
 
+        callback_metadata = {}
+
+
+        items = callback.get(
+            "CallbackMetadata",
+            {}
+        ).get(
+            "Item",
+            []
+        )
+
+
+        for item in items:
+
+            callback_metadata[
+                item.get("Name")
+            ] = item.get("Value")
+
+
+
         payment.status = "failed"
+
+
+        payment.metadata = callback_metadata
+
 
         payment.save()
 
@@ -265,6 +348,7 @@ def mpesa_callback(request):
 
 
         order.payment_status = "failed"
+
 
         order.save()
 
@@ -278,6 +362,92 @@ def mpesa_callback(request):
             "ResultDesc":
             "Accepted"
 
+        }
+
+    )
+
+@login_required
+def payment_status(request, order_number):
+
+    order = get_object_or_404(
+
+        Order,
+
+        order_number=order_number,
+
+        user=request.user
+
+    )
+
+
+    payment = order.payments.order_by(
+        "-created_at"
+    ).first()
+
+
+
+    return JsonResponse({
+
+        "status":
+            payment.status
+
+    })
+
+@never_cache
+@login_required
+def payment_pending(request, order_number):
+
+    order = get_object_or_404(
+        Order,
+        order_number=order_number,
+        user=request.user
+    )
+
+
+    payment = order.payments.order_by(
+        "-created_at"
+    ).first()
+
+
+    if payment.status == "paid":
+
+        return redirect(
+            "order_success",
+            order_number=order.order_number
+        )
+
+
+    return render(
+        request,
+        "orders/payment_pending.html",
+        {
+            "order": order
+        }
+    )
+
+@login_required
+def payment_failed(request, order_number):
+
+
+    order = get_object_or_404(
+
+        Order,
+
+        order_number=order_number,
+
+        user=request.user
+
+    )
+
+
+    return render(
+
+        request,
+
+        "orders/payment_failed.html",
+
+        {
+            "order": order
         }
 
     )

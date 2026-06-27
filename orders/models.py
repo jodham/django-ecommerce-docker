@@ -100,7 +100,7 @@ class Order(models.Model):
         null=True
     )
 
-
+    
     transaction_id = models.CharField(
         max_length=100,
         blank=True,
@@ -207,6 +207,10 @@ class Payment(models.Model):
 
     )
 
+    attempt_number = models.PositiveIntegerField(
+        default=1
+    )
+
 
     payment_method = models.CharField(
 
@@ -224,7 +228,11 @@ class Payment(models.Model):
         default="pending"
 
     )
-
+    metadata = models.JSONField(
+        default=dict,
+        blank=True,
+        null=True
+    )
 
     transaction_reference = models.CharField(
 

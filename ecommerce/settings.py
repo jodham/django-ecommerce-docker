@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-%s=pkk7+z-9#ob_$_1p@24b)es21b27h59&*f(*4x4eymd9kh3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://kary-kinetoscopic-dyan.ngrok-free.dev']
+ALLOWED_HOSTS = ["localhost","https://kary-kinetoscopic-dyan.ngrok-free.dev",
+    "127.0.0.1",
+    "testserver",]
 
 
 # Application definition

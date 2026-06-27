@@ -273,8 +273,7 @@ Order Details | LUXE & CO.
 
                     {% if order.payment_status != "paid" %}
 
-                    <a 
-                    href="{% url 'retry_payment' order.order_number %}"
+                   <a href="{% url 'retry_mpesa_payment' order.order_number %}"
                     class="btn btn-dark mt-3">
 
                     Retry Payment

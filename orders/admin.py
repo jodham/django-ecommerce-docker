@@ -122,6 +122,8 @@ class PaymentAdmin(admin.ModelAdmin):
 
         "order",
 
+        "attempt_number",
+
         "amount",
 
         "status",

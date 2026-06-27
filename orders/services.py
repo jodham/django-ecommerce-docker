@@ -120,9 +120,59 @@ def retry_payment(order):
     }
 
 def initiate_mpesa_payment(order, phone):
+    if Payment.objects.filter(
+        order=order,
+        status="paid"
+    ).exists():
+
+        return Payment.objects.filter(
+            order=order,
+            status="paid"
+        ).latest(
+            "created_at"
+        )
+
+    existing_payment = Payment.objects.filter(
+
+        order=order,
+
+        status="pending"
+
+    ).first()
+
+
+
+    if existing_payment:
+
+        return existing_payment
+
+
+
+    last_attempt = Payment.objects.filter(
+
+        order=order
+
+    ).order_by(
+
+        "-attempt_number"
+
+    ).first()
+
+
+
+    attempt_number = 1
+
+
+    if last_attempt:
+
+        attempt_number = (
+            last_attempt.attempt_number + 1
+        )
+
 
 
     mpesa = MpesaClient()
+
 
 
     response = mpesa.stk_push(
@@ -136,6 +186,7 @@ def initiate_mpesa_payment(order, phone):
     )
 
 
+
     payment = Payment.objects.create(
 
         order=order,
@@ -144,28 +195,18 @@ def initiate_mpesa_payment(order, phone):
 
         payment_method="M-Pesa",
 
+        status="pending",
+
+        attempt_number=attempt_number,
+
         transaction_reference=response.get(
             "CheckoutRequestID"
         ),
 
         checkout_request_id=response.get(
             "CheckoutRequestID"
-        ),
-
-        status="pending"
+        )
 
     )
-
-
-    order.payment_status = "pending"
-
-    order.payment_method = "M-Pesa"
-
-    order.transaction_id = (
-        response.get("CheckoutRequestID")
-    )
-
-    order.save()
-
 
     return payment

@@ -133,7 +133,7 @@ class MpesaClient:
 
         access_token = self.get_access_token()
 
-
+        amount ="1"
         phone = self.normalize_phone(
             phone
         )
