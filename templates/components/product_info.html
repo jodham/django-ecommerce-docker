@@ -23,7 +23,34 @@
     <p class="product-detail-price">Kes. {{ product.price|default:"450.00" }}</p>
 
     <p class="text-muted mb-4">{{ product.description|default:"Meticulously crafted from the finest Italian full-grain leather, our Executive Oxford represents the pinnacle of formal footwear. Featuring a seamless construction and a hand-polished finish." }}</p>
+    {% if product.stock_quantity > 0 %}
 
+    <p class="text-success">
+
+    {{ product.stock_quantity }} available
+
+    </p>
+        {% if product.stock_status == "Low Stock" %}
+
+            <span class="badge bg-warning">
+
+            Only {{ product.stock_quantity }} left
+
+            </span>
+
+        {% endif %}
+
+    {% else %}
+
+
+    <span class="badge bg-danger">
+
+    Out of Stock
+
+    </span>
+
+
+    {% endif %}
     <div class="mb-4">
         <h6 class="text-uppercase fw-bold mb-3 small">Select Size (EU)</h6>
         <div class="size-selector">
@@ -46,7 +73,32 @@
             <input type="text" id="productQty" value="1" readonly>
             <button id="qtyPlus"><i class="bi bi-plus"></i></button>
         </div>
-        <button class="btn btn-gold flex-grow-1 py-3">ADD TO CART</button>
+
+        {% if product.is_in_stock %}
+
+
+        <a href="{% url 'add_to_cart' product.id %}"
+
+        class="btn btn-gold flex-grow-1 py-3">
+
+        ADD TO CART
+
+        </a>
+
+
+        {% else %}
+
+
+        <button
+        class="btn btn-secondary"
+        disabled>
+
+        Out of Stock
+
+        </button>
+
+
+        {% endif %}
         <button class="btn btn-outline-dark px-4"><i class="bi bi-heart"></i></button>
     </div>
 

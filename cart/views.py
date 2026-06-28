@@ -12,7 +12,9 @@ def add_to_cart(request, product_id):
         id=product_id
     )
 
+    if not product.is_in_stock:
 
+        return redirect("product_list")
     # Ensure guest users have a session
     if not request.session.session_key:
 
@@ -47,9 +49,19 @@ def add_to_cart(request, product_id):
 
     if not created:
 
+
+        if cart_item.quantity + 1 > product.stock_quantity:
+
+            return redirect(
+                "cart_detail"
+            )
+
+
         cart_item.quantity += 1
 
+
     else:
+
 
         cart_item.quantity = 1
 

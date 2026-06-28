@@ -13,4 +13,5 @@ urlpatterns = [
     path("payment-status/<str:order_number>/", payment_status, name="payment_status"),
     path("payment-pending/<str:order_number>/", payment_pending, name="payment_pending"),
     path("payment-failed/<str:order_number>/", payment_failed, name="payment_failed"),
+   
 ]
