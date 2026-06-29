@@ -25,3 +25,23 @@ def reduce_stock_for_order(order):
             reference=order.order_number
 
         )
+
+
+def restock_product(product, quantity):
+
+    product.stock_quantity += quantity
+
+    product.save()
+
+
+    InventoryTransaction.objects.create(
+
+        product=product,
+
+        quantity=quantity,
+
+        transaction_type="restock",
+
+        reference="Admin Restock"
+
+    )
