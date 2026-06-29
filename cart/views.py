@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.shortcuts import render
 from products.models import Product
-
+from django.contrib import messages
 from .models import Cart, CartItem
 
 
@@ -27,15 +27,12 @@ def add_to_cart(request, product_id):
         status="active"
     ).first()
 
-
-
     if not cart:
 
         cart = Cart.objects.create(
             session_key=request.session.session_key,
             status="active"
         )
-
 
 
     cart_item, created = CartItem.objects.get_or_create(
@@ -45,7 +42,6 @@ def add_to_cart(request, product_id):
         product=product
 
     )
-
 
     if not created:
 
@@ -99,16 +95,40 @@ def update_quantity(request, item_id, action):
         id=item_id
     )
 
+    product = item.product
+
+
     if action == "increase":
 
-        item.quantity += 1
+
+        if item.quantity < product.stock_quantity:
+
+            item.quantity += 1
+
+
+        else:
+
+            messages.warning(
+
+                request,
+
+                f"Only {product.stock_quantity} items available."
+
+            )
+
+
 
     elif action == "decrease":
 
+
         if item.quantity > 1:
+
             item.quantity -= 1
 
+
+
     item.save()
+
 
     return redirect("cart_detail")
 

@@ -119,6 +119,9 @@ class Order(models.Model):
         decimal_places=2,
         default=0
     )
+    stock_deducted = models.BooleanField(
+        default=False
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True

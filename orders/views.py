@@ -7,7 +7,7 @@ from .models import Order, OrderItem, Payment
 from django.contrib.auth.decorators import login_required
 
 from django.http import JsonResponse
-
+from inventory.services import reduce_stock_for_order
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
@@ -309,7 +309,13 @@ def mpesa_callback(request):
 
         order.save()
 
+        if not order.stock_deducted:
 
+            reduce_stock_for_order(order)
+
+            order.stock_deducted = True
+
+            order.save()
 
     else:
 

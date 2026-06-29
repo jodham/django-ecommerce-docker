@@ -18,7 +18,7 @@
                                 {% endif %}                     
                                 <div class="product-actions">
                                     <a href="#" class="action-btn" title="Add to Wishlist"><i class="bi bi-heart"></i></a>
-                                    <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
+                                    <a href="{% url 'product_detail' product.id%}" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
                                     <a 
                                         href="{% url 'add_to_cart' product.id %}" 
                                         class="action-btn" 

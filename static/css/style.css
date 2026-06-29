@@ -1405,3 +1405,47 @@ footer a:hover {
     color:#383d41;
 
 }
+
+/* ===========message container============= */
+.message-container {
+
+    position: fixed;
+
+    top: 90px;
+
+    right: 20px;
+
+    z-index: 9999;
+
+    width: 350px;
+
+}
+
+.message-container .alert {
+
+    animation: slideIn .3s ease;
+
+}
+
+
+@keyframes slideIn {
+
+    from {
+
+        transform: translateY(-20px);
+
+        opacity: 0;
+
+    }
+
+
+    to {
+
+        transform: translateY(0);
+
+        opacity: 1;
+
+    }
+
+}
+/* =======/x====message container====/x========= */
