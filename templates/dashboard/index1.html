@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="container py-5">
+
+
+    <h2>
+    Store Dashboard
+    </h2>
+
+
+
+    <div class="row mt-4">
+
+
+        <div class="col-md-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h6>
+                    Orders
+                    </h6>
+
+                    <h3>
+                    {{ total_orders }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h6>
+                    Revenue
+                    </h6>
+
+                    <h3>
+                    KSh {{ total_revenue }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h6>
+                    Paid Orders
+                    </h6>
+
+                    <h3>
+                    {{ paid_orders }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="row mt-5">
+
+
+        <div class="col-md-6">
+            <div class="card">
+
+                <div class="card-body">
+
+
+                    <h5 class="mb-3">
+                    Low Stock Alert
+                    </h5>
+
+
+
+                {% for product in low_stock_products %}
+
+
+                    <p class="mb-1">
+
+                    {{ product.name }}
+
+                    <span class="badge bg-warning">
+
+                    {{ product.stock_quantity }}
+
+                    left
+
+                    </span>
+
+                    </p>
+
+
+                    {% empty %}
+
+                    <p>
+                    No low stock products.
+                    </p>
+
+
+                {% endfor %}
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+
+
+            <div class="card">
+
+                <div class="card-body">
+
+
+                    <h5 class="mb-3">
+                    Out of Stock
+                    </h5>
+
+
+
+                    {% for product in out_of_stock_products %}
+
+
+                    <p>
+
+                    {{ product.name }}
+
+                    <span class="badge bg-danger">
+
+                    Unavailable
+
+                    </span>
+
+                    </p>
+
+
+                    {% empty %}
+
+
+                    <p>
+                    No out of stock products.
+                    </p>
+
+
+                    {% endfor %}
+
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="card mt-5">
+
+            <div class="card-body">
+
+
+                <h5>
+                Recent Inventory Activity
+                </h5>
+
+
+                <table class="table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                            Product
+                            </th>
+
+                            <th>Change</th>
+
+                            <th>Type</th>
+
+                            <th>
+                            Date
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for transaction in recent_transactions %}
+
+
+                        <tr>
+
+
+                        <td>
+                        {{ transaction.product.name }}
+                        </td>
+
+
+                        <td>
+
+                        {% if transaction.quantity > 0 %}
+
+                        +
+                        {% endif %}
+
+                        {{ transaction.quantity }}
+
+                        </td>
+
+
+                        <td>
+                        {{ transaction.transaction_type|title }}
+                        </td>
+
+
+                        <td>
+                        {{ transaction.created_at }}
+                        </td>
+
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+</div>
+
+
+{% endblock %}

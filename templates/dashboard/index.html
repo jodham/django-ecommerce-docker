@@ -1,0 +1,222 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load static %}
+
+{% block title %}Store Dashboard{% endblock %}
+
+
+
+{% block dashboard_content %}
+
+<main class="dash-main">
+
+    <div class="dash-header">
+        <div>
+            <h1 class="dash-header__title">Store Dashboard</h1>
+            <p class="dash-header__crumbs">Home <span>/</span> Dashboard</p>
+        </div>
+
+        <div class="dash-header__actions">
+            <button class="date-range-btn" id="dateRangeBtn" type="button">
+                <i class="bi bi-calendar3"></i>
+                <span>{{ date_range|default:"May 18, 2025 - May 24, 2025" }}</span>
+                <i class="bi bi-chevron-down"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Stat Cards -->
+    <section class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-card__icon"><i class="bi bi-cart3"></i></div>
+            <div class="stat-card__body">
+                <p class="stat-card__label">Total Orders</p>
+                <p class="stat-card__value">{{ total_orders|default:"125" }}</p>
+                <p class="stat-card__delta is-up"><i class="bi bi-arrow-up-short"></i>{{ orders_delta|default:"12.5%" }} <span>vs last 7 days</span></p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card__icon"><i class="bi bi-currency-exchange"></i></div>
+            <div class="stat-card__body">
+                <p class="stat-card__label">Revenue</p>
+                <p class="stat-card__value">KSh {{ revenue|default:"245,860" }}</p>
+                <p class="stat-card__delta is-up"><i class="bi bi-arrow-up-short"></i>{{ revenue_delta|default:"18.7%" }} <span>vs last 7 days</span></p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card__icon"><i class="bi bi-credit-card-2-front"></i></div>
+            <div class="stat-card__body">
+                <p class="stat-card__label">Paid Orders</p>
+                <p class="stat-card__value">{{ paid_orders|default:"98" }}</p>
+                <p class="stat-card__delta is-up"><i class="bi bi-arrow-up-short"></i>{{ paid_delta|default:"F.3%" }} <span>vs last 7 days</span></p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card__icon"><i class="bi bi-people"></i></div>
+            <div class="stat-card__body">
+                <p class="stat-card__label">Customers</p>
+                <p class="stat-card__value">{{ customers_count|default:"87" }}</p>
+                <p class="stat-card__delta is-up"><i class="bi bi-arrow-up-short"></i>{{ customers_delta|default:"8.9%" }} <span>vs last 7 days</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sales overview + side lists -->
+    <section class="dash-row">
+        <div class="panel panel--chart">
+            <div class="panel__head">
+                <h2 class="panel__title">Sales Overview</h2>
+                <select class="panel__select" id="salesRangeSelect">
+                    <option>Last 7 Days</option>
+                    <option>Last 30 Days</option>
+                    <option>This Quarter</option>
+                </select>
+            </div>
+            <div class="panel__body">
+                <canvas id="salesChart" height="240"></canvas>
+            </div>
+        </div>
+
+        <div class="dash-col">
+            <div class="panel">
+                <div class="panel__head">
+                    <h2 class="panel__title">Low Stock Products</h2>
+                    <a href="#" class="panel__link">View all</a>
+                </div>
+                <ul class="item-list">
+                    {% for item in low_stock_products %}
+                    <li class="item-list__row">
+                        <span class="item-list__thumb"><i class="bi bi-shop-window"></i></span>
+                        <span class="item-list__name">{{ item.name }}</span>
+                        <span class="badge badge--warn">{{ item.stock_quantity }} left</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="panel">
+                <div class="panel__head">
+                    <h2 class="panel__title">Out of Stock Alerts</h2>
+                    <a href="#" class="panel__link">View all</a>
+                </div>
+                <ul class="item-list">
+                    {% for item in out_of_stock_products %}
+                    <li class="item-list__row">
+                        <span class="item-list__thumb"><i class="bi bi-shop-window"></i></span>
+                        <span class="item-list__name">{{ item.name }}</span>
+                        <span class="badge badge--danger">Out of stock</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Orders -->
+    <section class="panel">
+        <div class="panel__head">
+            <h2 class="panel__title">Recent Orders</h2>
+            <a href="#" class="panel__link">View all</a>
+        </div>
+        <div class="table-wrap">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr>
+                        <td class="cell-strong">{{ order.number }}</td>
+                        <td>{{ order.customer }}</td>
+                        <td>{{ order.date }}</td>
+                        <td>KSh {{ order.total }}</td>
+                        <td>
+                            <span class="badge {% if order.status == 'Paid' %}badge--success{% elif order.status == 'Processing' %}badge--info{% else %}badge--pending{% endif %}">
+                                {{ order.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Recent Inventory Movements -->
+    <section class="panel">
+        <div class="panel__head">
+            <h2 class="panel__title">Recent Inventory Movements</h2>
+            <a href="#" class="panel__link">View all</a>
+        </div>
+        <div class="table-wrap">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                        <th>Reference</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for m in recent_transactions %}
+                    <tr>
+                        <td class="cell-product">
+                            <span class="item-list__thumb item-list__thumb--sm"><i class="bi bi-shop-window"></i></span>
+                            {{ m.product.name }}
+                        </td>
+                        <td>
+                            <span class="badge {% if m.type == 'Sale' %}badge--danger-soft{% else %}badge--success-soft{% endif %}">{{m.transaction_type|title }}</span>
+                        </td>
+                        <td class="{% if m.quantity < 0 %}qty-negative{% else %}qty-positive{% endif %}">
+                            {{ m.quantity }}
+                        </td>
+                        <td>{{ m.reference }}</td>
+                        <td>{{ m.created_at|date:"M d" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+<script>
+    const salesLabels = [
+
+        {% for sale in sales_data %}
+
+        "{{ sale.date }}",
+
+        {% endfor %}
+
+        ];
+
+
+
+    const salesValues = [
+
+        {% for sale in sales_data %}
+
+        {{ sale.revenue }},
+
+        {% endfor %}
+
+        ];
+
+
+</script>
+
+{% endblock %}
+
+

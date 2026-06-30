@@ -1,0 +1,94 @@
+{% load static %}
+<aside class="dash-sidebar" id="dashSidebar">
+    <div class="dash-sidebar__brand">
+        <span class="dash-sidebar__brand-mark">{{ store_initial|default:"S" }}</span>
+        <span class="dash-sidebar__brand-name">{{ store_name|default:"Store Name" }}</span>
+    </div>
+
+    <nav class="dash-nav">
+        <p class="dash-nav__label">Navigation</p>
+        <ul class="dash-nav__list">
+            <li class="dash-nav__item">
+                <a href="{% url 'dashboard' %}" class="dash-nav__link {% if request.resolver_match.url_name == 'dashboard' %}is-active{% endif %}">
+                    <i class="bi bi-grid-1x2"></i><span>Dashboard</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'orders' %}is-active{% endif %}">
+                    <i class="bi bi-receipt"></i><span>Orders</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'products' %}is-active{% endif %}">
+                    <i class="bi bi-bag"></i><span>Products</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'inventory' %}is-active{% endif %}">
+                    <i class="bi bi-box-seam"></i><span>Inventory</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'customers' %}is-active{% endif %}">
+                    <i class="bi bi-people"></i><span>Customers</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'reports' %}is-active{% endif %}">
+                    <i class="bi bi-bar-chart-line"></i><span>Reports</span>
+                </a>
+            </li>
+        </ul>
+
+        <p class="dash-nav__label">Management</p>
+        <ul class="dash-nav__list">
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'categories' %}is-active{% endif %}">
+                    <i class="bi bi-diagram-3"></i><span>Categories</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'brands' %}is-active{% endif %}">
+                    <i class="bi bi-gem"></i><span>Brands</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'coupons' %}is-active{% endif %}">
+                    <i class="bi bi-ticket-perforated"></i><span>Coupons</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'reviews' %}is-active{% endif %}">
+                    <i class="bi bi-star"></i><span>Reviews</span>
+                </a>
+            </li>
+        </ul>
+
+        <p class="dash-nav__label">Settings</p>
+        <ul class="dash-nav__list">
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'store_settings' %}is-active{% endif %}">
+                    <i class="bi bi-shop"></i><span>Store Settings</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'users' %}is-active{% endif %}">
+                    <i class="bi bi-person-badge"></i><span>Users</span>
+                </a>
+            </li>
+            <li class="dash-nav__item">
+                <a href="#" class="dash-nav__link {% if request.resolver_match.url_name == 'system_settings' %}is-active{% endif %}">
+                    <i class="bi bi-gear"></i><span>System Settings</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="dash-sidebar__footer">
+        <i class="bi bi-bag-heart"></i>
+        <div>
+            <strong>{{ store_name|default:"Store Name" }}</strong>
+            <span>&copy; {% now "Y" %} All rights reserved.</span>
+        </div>
+    </div>
+</aside>
