@@ -57,7 +57,7 @@
             <div class="stat-card__icon"><i class="bi bi-people"></i></div>
             <div class="stat-card__body">
                 <p class="stat-card__label">Customers</p>
-                <p class="stat-card__value">{{ customers_count|default:"87" }}</p>
+                <p class="stat-card__value">{{ total_customers|default:"87" }}</p>
                 <p class="stat-card__delta is-up"><i class="bi bi-arrow-up-short"></i>{{ customers_delta|default:"8.9%" }} <span>vs last 7 days</span></p>
             </div>
         </div>
@@ -191,6 +191,7 @@
     </section>
 
 </main>
+
 <script>
     const salesLabels = [
 

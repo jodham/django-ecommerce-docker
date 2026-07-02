@@ -12,11 +12,16 @@ from django.db import models
 
 from django.db.models.functions import TruncDate
 
+from django.contrib.auth import get_user_model
+
+
 def dashboard(request):
 
+    User = get_user_model()
+
+    total_customers = User.objects.count()
 
     total_orders = Order.objects.count()
-
 
     total_revenue = Order.objects.filter(
 
@@ -92,6 +97,8 @@ def dashboard(request):
     )
 
     context = {
+
+        "total_customers": total_customers,
 
         "sales_data": sales_data,
 
